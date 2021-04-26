@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marvels_flutter/DatabaseHelper.dart';
 import 'package:marvels_flutter/Network.dart';
 import 'package:marvels_flutter/people.dart';
 
@@ -40,9 +41,14 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     network = Network();
     network.fetchAlbum().then((value) => {
-    setState(() => {
-        marvels = value
-      })
+
+      DatabaseHelper.instance.insertPeoples(value).then((value) => {
+        DatabaseHelper.instance.getPeoples().then((insertedPeople) => {
+          setState(() => {
+            marvels = insertedPeople
+          })
+        })
+      }),
     });
   }
 
@@ -54,22 +60,44 @@ class _MyHomePageState extends State<MyHomePage> {
           ? ListView.builder(
         itemCount: marvels.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: CircleAvatar(
-              child: FadeInImage.assetNetwork(
-                image:marvels[index].imageURL,
-                placeholder: 'assets/profile.png',
+          return Container(
+            margin: EdgeInsets.fromLTRB(8, 5, 8, 5),
+
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: ListTile(
+
+              leading: CircleAvatar(
+                child: FadeInImage.assetNetwork(
+                  image:marvels[index].imageURL,
+                  placeholder: 'assets/profile.png',
+                ),
+
+              ),
+              title: Text(marvels[index].name),
+              subtitle: Text(marvels[index].team),
+              trailing: IconButton(
+                onPressed: () {  },
+                icon: Icon(Icons.play_arrow),
+                color: Colors.pink,
               ),
 
             ),
-            title: Text(marvels[index].name),
-            subtitle: Text(marvels[index].team),
-            trailing: IconButton(
-              onPressed: () {  },
-              icon: Icon(Icons.play_arrow),
-
-            ),
-
           );
         },
       )
