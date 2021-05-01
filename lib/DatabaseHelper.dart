@@ -29,6 +29,7 @@ class DatabaseHelper {
 
   insertPeople(People people) async {
     final db = await database;
+
     var res = await db.insert(People.TABLENAME, people.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return res;
@@ -37,6 +38,7 @@ class DatabaseHelper {
 
   Future <int> insertPeoples(List<People> people) async {
     final db = await database;
+    int count = await db.delete(People.TABLENAME);
     var res;
     await people.forEach((element) {
       res = db.insert(People.TABLENAME, element.toMap(),
@@ -47,7 +49,6 @@ class DatabaseHelper {
 
   Future<List<People>> getPeoples() async {
     final db = await database;
-
     final List<Map<String, dynamic>> maps = await db.query(People.TABLENAME);
 
     return List.generate(maps.length, (i) {
