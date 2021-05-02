@@ -3,6 +3,7 @@ import 'package:marvels_flutter/DatabaseHelper.dart';
 import 'package:marvels_flutter/Network.dart';
 import 'package:marvels_flutter/people.dart';
 import 'package:marvels_flutter/detail.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -73,16 +74,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       image: NetworkImage(marvels[index].imageURL),
-                      fit: BoxFit.fill
+                      fit: BoxFit.cover
                   ),
                 ),
               ),
               title: Text(marvels[index].name),
               subtitle: Text(marvels[index].team),
               trailing: IconButton(
-                onPressed: () {  },
+
+                onPressed: () async{
+                  if (await canLaunch(marvels[index].youtubeURL))
+                    await launch(marvels[index].youtubeURL);
+                },
                 icon: Icon(Icons.play_arrow),
                 color: Colors.pink,
+                iconSize: 40,
               ),
               onTap: () {
                 People people = marvels[index];

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:marvels_flutter/people.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Detail extends StatefulWidget {
 
@@ -33,17 +34,19 @@ class _DetailState extends State<Detail> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
                       children: <Widget>[
                         Container(
 
-                          margin: EdgeInsets.fromLTRB(0, 35, 0, 30),
+                          margin: EdgeInsets.fromLTRB(0, 35, 0, 0),
                           width: 160,
                           height: 160,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
+                            color: Colors.red,
                             image: DecorationImage(
                                 image: NetworkImage(people.imageURL),
-                                fit: BoxFit.fill
+                                fit: BoxFit.scaleDown
                             ),
                           ),
                         ),
@@ -51,6 +54,10 @@ class _DetailState extends State<Detail> {
                           padding: const EdgeInsets.fromLTRB(320, 0, 0, 0),
                           child:  FloatingActionButton(
                             backgroundColor: Colors.pink,
+                            onPressed: () async{
+                              if (await canLaunch(people.youtubeURL))
+                              await launch(people.youtubeURL);
+                            },
                             child: Icon(
                               Icons.play_arrow,
 
