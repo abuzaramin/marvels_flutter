@@ -2,7 +2,7 @@
     package="com.abuzar.marvels_flutter">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="marvels_flutter"
+        android:label="Marvels"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:marvels_flutter/DatabaseHelper.dart';
 import 'package:marvels_flutter/Network.dart';
 import 'package:marvels_flutter/people.dart';
+import 'package:marvels_flutter/login.dart';
 import 'package:marvels_flutter/detail.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -39,7 +41,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext maincontext) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Marvels')),
+      appBar: AppBar(title: const Text('Marvels'),
+          actions: [
+         IconButton(icon: Icon(Icons.logout), onPressed: () {
+           logOutUser();
+           Navigator
+               .of(context)
+               .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) => Login() ));
+
+         }),
+        ],
+      ),
       body: marvels != null
           ? ListView.builder(
         itemCount: marvels.length,
@@ -101,7 +113,16 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         },
       )
-          : Center(child: const Text('No items')),
+          : Container(
+        alignment: Alignment.center,
+          child: CircularProgressIndicator(
+
+      )) ,
     );
+  }
+
+  void logOutUser () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', false);
   }
 }
