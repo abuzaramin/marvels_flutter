@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marvels_flutter/DatabaseHelper.dart';
 import 'package:marvels_flutter/Network.dart';
-import 'package:marvels_flutter/people.dart';
+import 'package:marvels_flutter/person.dart';
 import 'package:marvels_flutter/login.dart';
 import 'package:marvels_flutter/detail.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,7 +19,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   final List<String> entries = <String>['A', 'B', 'C'];
-  List<People> marvels ;
+  List<Person> marvels ;
   Network network;
 
   @override
@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 iconSize: 40,
               ),
               onTap: () {
-                People people = marvels[index];
+                Person people = marvels[index];
                 Navigator.pushNamed (
                     context,
                     Detail.routeName, arguments: people
