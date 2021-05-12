@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'person.dart';
+import 'package:marvels_flutter/models/person.dart';
 import 'package:http/http.dart' as http;
 
 class Network {

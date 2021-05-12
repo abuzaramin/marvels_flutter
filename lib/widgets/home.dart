@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:marvels_flutter/DatabaseHelper.dart';
-import 'package:marvels_flutter/Network.dart';
-import 'package:marvels_flutter/person.dart';
-import 'package:marvels_flutter/login.dart';
-import 'package:marvels_flutter/detail.dart';
+import 'package:marvels_flutter/database/DatabaseHelper.dart';
+import 'package:marvels_flutter/network/Network.dart';
+import 'package:marvels_flutter/models/person.dart';
+import 'package:marvels_flutter/widgets/login.dart';
+import 'package:marvels_flutter/widgets/detail.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

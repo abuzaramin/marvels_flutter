@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marvels_flutter/home.dart';
-import 'package:marvels_flutter/detail.dart';
-import 'package:marvels_flutter/login.dart';
+import 'package:marvels_flutter/widgets/home.dart';
+import 'package:marvels_flutter/widgets/detail.dart';
+import 'package:marvels_flutter/widgets/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyApp extends StatefulWidget {

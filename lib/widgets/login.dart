@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marvels_flutter/home.dart';
+import 'package:marvels_flutter/widgets/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {

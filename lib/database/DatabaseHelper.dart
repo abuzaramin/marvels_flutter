@@ -1,4 +1,4 @@
-import 'package:marvels_flutter/person.dart';
+import 'package:marvels_flutter/models/person.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

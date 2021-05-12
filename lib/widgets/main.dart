@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marvels_flutter/myApp.dart';
+import 'package:marvels_flutter/widgets/myApp.dart';
 
 
 
