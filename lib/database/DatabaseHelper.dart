@@ -23,41 +23,41 @@ class DatabaseHelper {
     return await openDatabase(join(await getDatabasesPath(), databaseName),
         version: 1, onCreate: (Database db, int version) async {
           await db.execute(
-              "CREATE TABLE People(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, realname TEXT, team TEXT, firstAppearance TEXT, createdBy TEXT, publisher TEXT,"
+              "CREATE TABLE Person(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, realname TEXT, team TEXT, firstAppearance TEXT, createdBy TEXT, publisher TEXT,"
                   " imageURL TEXT, bio TEXT, imdb TEXT, rottenTomatto TEXT, youtubeURL TEXT)");
         });
   }
 
-  insertPeople(Person people) async {
+  insertPerson(Person person) async {
     final db = await database;
 
-    var res = await db.insert(Person.TABLENAME, people.toMap(),
+    var res = await db.insert(Person.TABLENAME, person.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return res;
   }
 
 
-  Future <int> insertPeoples(List<Person> people) async {
+  Future <int> insertPersons(List<Person> person) async {
     final db = await database;
     int count = await db.delete(Person.TABLENAME);
     var res;
-    await people.forEach((element) {
+    await person.forEach((element) {
       res = db.insert(Person.TABLENAME, element.toMap(),
           conflictAlgorithm:  ConflictAlgorithm.replace);
     });
     return res;
   }
 
-  Future<List<Person>> getPeoples() async {
+  Future<List<Person>> getPersons() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(Person.TABLENAME);
     return maps.isNotEmpty ? List.generate(maps.length, (i) => Person.fromDBJson(maps[i])) : [];
 
   }
 
-  Future<Person> getPeople(int id) async {
+  Future<Person> getPerson(int id) async {
     final db = await database;
-    List<Map<String, dynamic>> mapList = await db.rawQuery('select * from People where id = :$id');
+    List<Map<String, dynamic>> mapList = await db.rawQuery('select * from Person where id = :$id');
     return mapList == null ? null : Person.fromJson(mapList[0]);
   }
 }

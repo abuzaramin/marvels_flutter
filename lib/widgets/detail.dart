@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:marvels_flutter/models/person.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -17,7 +18,7 @@ class _DetailState extends State<Detail> {
 
   @override
   Widget build(BuildContext context) {
-    final Person people =
+    final Person person =
     ModalRoute.of(context).settings.arguments as Person;
 
    // const Key centerKey = ValueKey<String>('bottom-sliver-list');
@@ -45,7 +46,7 @@ class _DetailState extends State<Detail> {
                             shape: BoxShape.circle,
                             color: Colors.red,
                             image: DecorationImage(
-                                image: NetworkImage(people.imageURL),
+                                image: CachedNetworkImageProvider (person.imageURL),
                                 fit: BoxFit.scaleDown
                             ),
                           ),
@@ -55,8 +56,8 @@ class _DetailState extends State<Detail> {
                           child:  FloatingActionButton(
                             backgroundColor: Colors.pink,
                             onPressed: () async{
-                              if (await canLaunch(people.youtubeURL))
-                              await launch(people.youtubeURL);
+                              if (await canLaunch(person.youtubeURL))
+                              await launch(person.youtubeURL);
                             },
                             child: Icon(
                               Icons.play_arrow,
@@ -69,7 +70,7 @@ class _DetailState extends State<Detail> {
                   ),
 
 
-              title: Text(people.name, style:  TextStyle(fontSize: 20, color: Colors.white,  ) , textAlign: TextAlign.left,
+              title: Text(person.name, style:  TextStyle(fontSize: 20, color: Colors.white,  ) , textAlign: TextAlign.left,
 
               ),
               titlePadding: EdgeInsets.fromLTRB(40, 0, 20, 15),
@@ -109,7 +110,7 @@ class _DetailState extends State<Detail> {
                                 margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
 
                                 child: Text(
-                                  people.team,
+                                  person.team,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(fontSize: 20, color: Colors.grey),
                                 )
@@ -143,7 +144,7 @@ class _DetailState extends State<Detail> {
                                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
 
                                   child: Text(
-                                    people.imdb,
+                                    person.imdb,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20, color: Colors.grey),
                                   )
@@ -177,7 +178,7 @@ class _DetailState extends State<Detail> {
                                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
 
                                   child: Text(
-                                    people.rottenTomatto,
+                                    person.rottenTomatto,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20, color: Colors.grey),
                                   )
@@ -211,7 +212,7 @@ class _DetailState extends State<Detail> {
                                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
 
                                   child: Text(
-                                    people.realName,
+                                    person.realName,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20, color: Colors.grey),
                                   )
@@ -245,7 +246,7 @@ class _DetailState extends State<Detail> {
                                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
 
                                   child: Text(
-                                    people.firstAppearance,
+                                    person.firstAppearance,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20, color: Colors.grey),
                                   )
@@ -279,7 +280,7 @@ class _DetailState extends State<Detail> {
                                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
 
                                   child: Text(
-                                    people.createdBy,
+                                    person.createdBy,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20, color: Colors.grey),
                                   )
@@ -313,7 +314,7 @@ class _DetailState extends State<Detail> {
                                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
 
                                   child: Text(
-                                    people.publisher,
+                                    person.publisher,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20, color: Colors.grey),
                                   )
@@ -331,16 +332,9 @@ class _DetailState extends State<Detail> {
                                   padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
                                   child:
                                   Html (
-                                      data:people.bio,
+                                      data:person.bio,
                                     defaultTextStyle: TextStyle(fontSize: 20, color: Colors.grey),
                                   ),
-
-                                  // Text(
-                                  //   people.bio,
-                                  //   textAlign: TextAlign.left,
-                                  //
-                                  //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.grey),
-                                  // )
                               ),
                             ),
                           ]

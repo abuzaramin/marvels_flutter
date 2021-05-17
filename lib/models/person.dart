@@ -16,7 +16,7 @@ class Person {
    String rottenTomatto;
    String youtubeURL;
 
-   static const String TABLENAME = "People";
+   static const String TABLENAME = "Person";
 
    Person (this.id, this.name, this.realName, this.team, this.firstAppearance, this.createdBy, this.publisher, this.imageURL, this.bio, this.imdb,
        this.rottenTomatto, this.youtubeURL);

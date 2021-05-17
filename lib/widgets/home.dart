@@ -6,11 +6,15 @@ import 'package:marvels_flutter/widgets/login.dart';
 import 'package:marvels_flutter/widgets/detail.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
+
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -22,34 +26,76 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Person> marvels ;
   Network network;
 
+
   @override
   void initState () {
     super.initState();
-    network = Network();
-    network.fetchAlbum().then((value) => {
-
-      DatabaseHelper.instance.insertPeoples(value).then((value) => {
-        DatabaseHelper.instance.getPeoples().then((insertedPeople) => {
-          setState(() => {
-            marvels = insertedPeople
-          })
-        })
-      }),
+    DatabaseHelper.instance.getPersons().then((insertedPerson) => {
+    setState(() => {
+    marvels = insertedPerson
+      })
     });
+
+    network = Network();
+    fetchData();
   }
 
+  void fetchData () {
+    network.fetchAlbum().then((value) => {
+
+      if (value != null) {
+        DatabaseHelper.instance.insertPersons(value).then((value) =>
+        {
+          fetchFromDb(),
+        }),
+      }
+      else {
+        fetchFromDb(),
+        showToast(),
+      }
+    });
+  }
+  void showToast() {
+
+    Fluttertoast.showToast(
+        msg: "Something went wrong, kindly check your internet connection and try again",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+  }
+
+  void fetchFromDb () {
+    DatabaseHelper.instance.getPersons().then((insertedPerson) =>
+    {
+      setState(() =>
+      {
+        marvels = insertedPerson
+      })
+    });
+  }
   @override
   Widget build(BuildContext maincontext) {
+
     return Scaffold(
       appBar: AppBar(title: const Text('Marvels'),
           actions: [
+            IconButton(icon: Icon(Icons.refresh), onPressed: () {
+              setState(() {
+                marvels = null;
+              });
+              fetchData();
+            }),
          IconButton(icon: Icon(Icons.logout), onPressed: () {
            logOutUser();
            Navigator
                .of(context)
                .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) => Login() ));
-
          }),
+
         ],
       ),
       body: marvels != null
@@ -85,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                      image: NetworkImage(marvels[index].imageURL),
+                      image: CachedNetworkImageProvider (marvels[index].imageURL),
                       fit: BoxFit.cover
                   ),
                 ),
@@ -103,10 +149,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 iconSize: 40,
               ),
               onTap: () {
-                Person people = marvels[index];
+                Person person = marvels[index];
                 Navigator.pushNamed (
                     context,
-                    Detail.routeName, arguments: people
+                    Detail.routeName, arguments: person
                 );
               },
             ),
@@ -119,6 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       )) ,
     );
+
   }
 
   void logOutUser () async {
